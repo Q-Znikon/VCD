@@ -1,4 +1,5 @@
 import speech_recognition as sr
+from datetime import datetime
 
 while True:
     r = sr.Recognizer()
@@ -6,12 +7,15 @@ while True:
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
 
-        print("Say something")
+        time = datetime.now().strftime('%H:%M:%S')
+
+        print(time, "Say something:")
 
         audio = r.listen(source)
 
         try:
-            print(r.recognize_google(audio, language="th-TH"))
+            words = r.recognize_google(audio, language="th-TH")
+            print(time, words, "\n")
 
-        except:
-            print("Error")
+        except Exception as e:
+            print(time, "Error", e, "\n")
